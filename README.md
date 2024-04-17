@@ -1,8 +1,10 @@
 # ArchLinuxTutorial
  Arch Linux 安装使用教程
 
-[写在前面](./doc/00_Info.md)
+我们推荐你阅读 PDF 版本，PDF 版本可以获得良好的阅读体验。
 
-[开始之前](./doc/01_Pre_Install.md)
+## 写在前面 [Markdown](./doc/00_Info.md) [PDF]()
 
-[基础安装](./doc/02_Basic_Install.md)
+## 开始之前 [Markdown](./doc/01_Pre_Install.md) [PDF](./pdf/01_Pre_Install.pdf)
+
+## 基础安装 [Markdown](./doc/02_Basic_Install.md) [PDF](./pdf/02_Basic_Install.pdf)

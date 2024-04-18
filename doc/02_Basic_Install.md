@@ -120,19 +120,19 @@ cd ~ && umount -Rv /mnt						# 退出目录并卸载分区
 ```bash
 # 将@子卷挂载为根目录
 mount -v --mkdir /dev/nvme0n1p2 /mnt -o \
-subvol=@,noatime,disacrd=async,compress=zstd:3
+subvol=@,noatime,discard=async,compress=zstd:3
 # 将@home子卷挂载为home目录
 mount -v --mkdir /dev/nvme0n1p2 /mnt/home -o \
-subvol=@home,noatime,disacrd=async,compress=zstd:3
+subvol=@home,noatime,discard=async,compress=zstd:3
 # 将@swap子卷挂载为swap目录
 mount -v --mkdir /dev/nvme0n1p2 /mnt/swap -o \
-subvol=@swap,noatime,disacrd=async,compress=zstd:3
+subvol=@swap,noatime,discard=async,compress=zstd:3
 # 将@var_log子卷挂载为log目录
 mount -v --mkdir /dev/nvme0n1p2 /mnt/var/log -o \
-subvol=@var_log,noatime,disacrd=async,compress=zstd:3
+subvol=@var_log,noatime,discard=async,compress=zstd:3
 # 将@var_cache子卷挂载为cache目录
 mount -v --mkdir /dev/nvme0n1p2 /mnt/var/cache -o \
-subvol=@var_cache,noatime,disacrd=async,compress=zstd:3
+subvol=@var_cache,noatime,discard=async,compress=zstd:3
 
 # 挂载BOOT分区
 mount -v --mkdir /dev/nvme0n1p1 /mnt/boot
@@ -189,7 +189,7 @@ pacstrap -K /mnt base base-devel linux-zen linux-zen-headers linux-firmware
 pacstrap /mnt dhcpcd iwd nano vim bash-completion btrfs-progs
 ```
 
-如果你正在使用包含 NVIDIA 显卡的硬件，那么建议你现在简单安装一个 NVIDIA 驱动，防止出现关机失败甚至无法关机的问题。
+如果你正在使用包含 NVIDIA 显卡的硬件，那么建议你现在先简单安装 NVIDIA 驱动^专有^，防止出现关机失败甚至无法关机的问题，之后我们再详细配置该驱动。
 
 ```bash
 pacstrap /mnt nvidia-dkms

@@ -18,3 +18,7 @@
 ## 桌面环境与必要应用
 
 [Markdown](./doc/03_Desktop_App.md) [PDF](./pdf/03_Desktop_App.pdf)
+
+## 魔法学院
+
+[Markdown](./doc/04_FXXK_GFW.md) [PDF](./pdf/04_FXXK_GFW.pdf)

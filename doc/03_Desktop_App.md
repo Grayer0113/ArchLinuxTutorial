@@ -175,7 +175,7 @@ sudo pacman -S git git-lfs wget 				# Git和另一个终端下载程序
 
 通常来说，NetworkManager 可以自动处理 DNS 解析服务，但这存在一些问题。如果没有经过修改，那么你的 DNS 服务器将由 ISP（互联网服务提供商）提供，这存在安全风险，比如常见的 DNS 劫持、DNS 污染等等，ISP 也有可能应当局要求记录你的 IP 地址以及网络访问历史。
 
-针对这些问题，我们建议的解决方案是使用可信的国际通用 DNS 服务器，比如 Google、CloudFlare 等等。但不幸的是，由于 GFW 的存在，你很可能无法使用这些服务器，我们只能退而求其次，使用中国大陆的相对安全的 DNS 服务器。在本文中我们暂时使用阿里云提供的 DNS 服务器，在下一章内容：魔法学院之后，你的 DNS 请求将全部经由代理服务器进行，这可以保证你的隐私安全。
+针对这些问题，我们建议的解决方案是使用可信的国际通用 DNS 服务器，比如 Google、CloudFlare 等等。但不幸的是，由于 GFW 的存在，你很可能无法使用这些服务器，我们只能退而求其次，使用中国大陆的相对安全的 DNS 服务器。在本文中我们暂时使用阿里云提供的 DNS 服务器，在下一章节内容之后，你的 DNS 请求将全部经由代理服务器进行，这可以保证你的隐私安全。
 
 下面针对阿里云 DNS 服务器进行 DNS 解析配置，同时启用 DOT，如果你可以正常访问 Google 等服务，那么请自行替换相关服务器地址。
 
@@ -235,10 +235,10 @@ DNS=dns.alidns.com
 DNSOverTLS=yes
 ```
 
-我们还需要告知 NetworkManager 使用我们指定的 DNS 解析服务：
+我们还需要配置 NetworkManager 使用我们指定的 DNS 解析服务：
 
 ```bash
-sudo nano /etc/NetworkManager/conf.d/dns.conf		# 配置NetworkManager
+sudo nano /etc/NetworkManager/conf.d/dns.conf	# 配置NetworkManager
 ```
 
 写入以下内容：
@@ -252,3 +252,67 @@ connection.mdns=2
 
 至此，DNS 服务器配置就算完成了，重启你的电脑即可使用。
 
+## 安装 AUR 助手
+
+为了方便你从 AUR 仓库下载安装用户打包的软件，可以使用 AUR 助手几乎全自动的完成该过程，我们推荐使用 paru^AUR^，类似的 AUR 助手还有 yay^AUR^，你可以自行选择安装。下面是安装过程：
+
+```bash
+git clone https://aur.archlinux.org/paru.git	# 克隆paru仓库
+cd paru											# 进入目录
+makepkg -si										# 编译并安装
+```
+
+因为 GFW 的存在，你很可能无法使用我们推荐的方法进行安装，你可以从 ArchLinuxCN 仓库下载已经编译好的软件临时使用，在下一章节内容完成之后，这样的问题就不复存在了。
+
+```bash
+wget https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/x86_64/paru-2.0.3-1-x86_64.pkg.tar.zst		# 下载paru
+sudo pacman -U paru-2.0.3-1-x86_64.pkg.tar.zst	# 安装paru
+```
+
+## 安装输入法
+
+我们推荐使用 Fcitx5 输入法。
+
+```bash
+sudo pacman -S fcitx5-im						# 基础输入法
+sudo pacman -S fcitx5-chinese-addons			# 中文输入插件
+sudo pacman -S fcitx5-lua						# 日期输入支持
+sudo pacman -S fcitx5-material-color			# 主题
+sudo pacman -S fcitx5-pinyin-zhwiki				# 中文维基词库
+```
+
+安装完成后，我们还需要设置一些环境变量来使 Fcitx5 正常运行，编辑`/etc/environment`文件，写入以下内容：
+
+```bash
+# Fcitx5
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+```
+
+接下来我们设置虚拟键盘，打开**系统设置 - 键盘 - 虚拟键盘**，选择 **Fcitx 5** 并**应用**即可。注意不要选择 **Fcitx 5 Wayland 启动器（实验性）**，就如字面意思一样，它目前并不稳定。
+
+重启电脑后，Fcitx5 可能会提示你不需要设置环境变量，我们忽略该提示即可。
+
+## 启用蓝牙支持
+
+对于蓝牙、无线网卡，我们推荐使用 Intel 产品，其在 Linux 下驱动支持完善，其它品牌请自行参考 Wiki。
+
+```bash
+sudo pacman -S bluez bluez-utils bluez-obex		# 蓝牙驱动，蓝牙文件传输支持
+sudo systemctl enable --now bluetooth			# 启动蓝牙支持服务
+```
+
+## 启用打印机支持
+
+对于打印机，我们只推荐使用惠普系列，它有着良好的 Linux 驱动支持。
+
+```bash
+sudo pacman -S cups cups-pdf					# 打印机服务，打印到PDF功能
+sudo pacman -S hplip							# 惠普打印机驱动
+sudo systemctl enable --now cups				# 启动打印支持服务
+```
+
+之后我们打开**系统设置 - 打印机 - 添加打印机 - CUPS 网络打印机帮助**，在浏览器中继续操作。
+
+选择 Administration 选项，使用你的用户名及密码登陆，选择 Add Printer 选项；下一页面勾选 CUPS-PDF（Virtual PDF Printer）选项并点击 Continue；下一页面保持默认并点击 Continue ；下一页面在 Make 中选择 Generic 并点击 Continue；下一页面选择 Generic CUPS-PDF Printer (no options) (en) 并点击 Add Printer，这样就添加了一个虚拟打印机，用以支持打印到 PDF 功能。

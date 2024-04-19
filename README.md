@@ -17,4 +17,4 @@
 
 ## 桌面环境与必要应用
 
-[Markdown](./doc/03_Desktop_App.md) [PDF]()
+[Markdown](./doc/03_Desktop_App.md) [PDF](./pdf/03_Desktop_App.pdf)
